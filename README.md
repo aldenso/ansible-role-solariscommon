@@ -32,7 +32,7 @@ Example Playbook
 
     - hosts: servers
       roles:
-         - { role: solariscommon, timezone: "America/New_York",  ns_switch: '"files dns mdns"', when: "ansible_os_family == 'Solaris'", become: true }
+         - { role: aldenso.solariscommon, timezone: "America/New_York",  ns_switch: '"files dns mdns"', when: "ansible_os_family == 'Solaris'", become: true }
 
 
 License
