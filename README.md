@@ -13,6 +13,8 @@ Role Variables
 
 Available variables are listed below.
 
+    solariscommon_be: false
+    solariscommon_bename: "solaris"
     solariscommon_timezone: "America/Caracas"
     solariscommon_dns_servers: "192.168.56.1 192.168.56.101"
     solariscommon_dns_search: '"aldoca.local" "aldoca.local.ve"'
@@ -32,7 +34,7 @@ Example Playbook
 
     - hosts: servers
       roles:
-         - { role: aldenso.solariscommon, timezone: "America/New_York",  ns_switch: '"files dns mdns"', when: "ansible_os_family == 'Solaris'", become: true }
+         - { role: aldenso.solariscommon, solariscommon_be: true, timezone: "America/New_York",  ns_switch: '"files dns mdns"', when: "ansible_os_family == 'Solaris'", become: true }
 
 
 License

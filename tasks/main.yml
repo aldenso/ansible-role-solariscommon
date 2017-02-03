@@ -1,11 +1,18 @@
 ---
 # tasks file for solariscommon
 
+# task to create a boot environment
+- name: create boot environment
+  command: /usr/sbin/beadm create {{ solariscommon_bename }}_{{ ansible_date_time['date'] | regex_replace('-', '') }}_{{ ansible_date_time['time'] | regex_replace(':', '') }}
+  when: solariscommon_be
+  tags: bootenv
+
 # task for timezone configuration
 - name: check timezone
   command: /usr/bin/svcprop -p timezone/localtime 'timezone:default'
   changed_when: False
   register: timezonenow
+  tags: timezone
 
 - name: set timezone
   command:  /usr/sbin/svccfg -s 'timezone:default' setprop timezone/localtime = {{ solariscommon_timezone }}
@@ -20,6 +27,7 @@
   shell: /usr/sbin/svccfg -s dns/client listprop -o value config/nameserver |  cut -c 2-
   changed_when: False
   register: nameservernow
+  tags: dns-client
 
 - name: set nameserver for dns client
   command: /usr/sbin/svccfg -s dns/client setprop config/nameserver = 'net_address:' ({{ solariscommon_dns_servers }})
@@ -33,6 +41,7 @@
   shell: grep search /etc/resolv.conf | cut -f2
   changed_when: False
   register: searchnow
+  tags: dns-client
 
 - name: set search for dns client
   command: /usr/sbin/svccfg -s dns/client setprop config/search = 'astring:' '({{ solariscommon_dns_search }})'
@@ -47,6 +56,7 @@
   shell: /usr/sbin/svccfg -s system/name-service/switch listprop -o value config/host | cut -c 2-
   changed_when: False
   register: nsswitchnow
+  tags: ns-switch
 
 - name: set configuration for name-service
   command: /usr/sbin/svccfg -s system/name-service/switch setprop config/host = 'astring:' '({{ solariscommon_ns_switch }})'

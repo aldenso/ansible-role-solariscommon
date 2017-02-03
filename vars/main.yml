@@ -1,5 +1,7 @@
 ---
 # vars file for solariscommon
+solariscommon_be: false
+solariscommon_bename: "solaris"
 solariscommon_timezone: "America/Caracas"
 solariscommon_dns_servers: "192.168.56.1 192.168.56.101"        # net_address
 solariscommon_dns_search: '"aldoca.local" "aldoca.local.ve"'    # astring
