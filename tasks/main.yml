@@ -1,0 +1,57 @@
+---
+# tasks file for solariscommon
+
+# task for timezone configuration
+- name: check timezone
+  command: /usr/bin/svcprop -p timezone/localtime 'timezone:default'
+  changed_when: False
+  register: timezonenow
+
+- name: set timezone
+  command:  /usr/sbin/svccfg -s 'timezone:default' setprop timezone/localtime = {{ solariscommon_timezone }}
+  when: timezonenow.stdout != "{{ solariscommon_timezone }}"
+  notify:
+    - refresh timezone service
+    - restart timezone service
+  tags: timezone
+
+# task for dns configuration
+- name: check nameserver for dns client
+  shell: /usr/sbin/svccfg -s dns/client listprop -o value config/nameserver |  cut -c 2-
+  changed_when: False
+  register: nameservernow
+
+- name: set nameserver for dns client
+  command: /usr/sbin/svccfg -s dns/client setprop config/nameserver = 'net_address:' ({{ solariscommon_dns_servers }})
+  when: nameservernow.stdout != "{{ solariscommon_dns_servers }}"
+  notify:
+    - refresh dns/client service
+    - restart dns/client service
+  tags: dns-client
+
+- name: check search for dns client
+  shell: grep search /etc/resolv.conf | cut -f2
+  changed_when: False
+  register: searchnow
+
+- name: set search for dns client
+  command: /usr/sbin/svccfg -s dns/client setprop config/search = 'astring:' '({{ solariscommon_dns_search }})'
+  when: "searchnow.stdout not in {{ solariscommon_dns_search | regex_replace('\" \"', ' ') }}"
+  notify:
+    - refresh dns/client service
+    - restart dns/client service
+  tags: dns-client
+
+# task for name-service switch
+- name: check configuration for name-service
+  shell: /usr/sbin/svccfg -s system/name-service/switch listprop -o value config/host | cut -c 2-
+  changed_when: False
+  register: nsswitchnow
+
+- name: set configuration for name-service
+  command: /usr/sbin/svccfg -s system/name-service/switch setprop config/host = 'astring:' '({{ solariscommon_ns_switch }})'
+  when: nsswitchnow.stdout != '{{ solariscommon_ns_switch }}'
+  notify:
+    - refresh name-service switch
+    - restart name-service switch
+  tags: ns-switch
