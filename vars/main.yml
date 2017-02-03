@@ -6,6 +6,7 @@ solariscommon_timezone: "America/Caracas"
 solariscommon_dns_servers: "192.168.56.1 192.168.56.101"        # net_address
 solariscommon_dns_search: '"aldoca.local" "aldoca.local.ve"'    # astring
 solariscommon_ns_switch: '"files dns"'                          # astring
+solariscommon_ntp_servers: [ '0.pool.ntp.org prefer', '1.pool.ntp.org', '2.pool.ntp.org' ]
 # remember the quotes to avoid errors with multi values in 
 # astring for svccfg.
 # ==========================================================

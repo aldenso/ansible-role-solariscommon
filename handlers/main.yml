@@ -18,3 +18,9 @@
 
 - name: restart dns/client service
   service: name=dns/client:default state=restarted sleep=5
+
+- name: refresh ntp service
+  service: name=network/ntp:default state=reloaded sleep=5
+
+- name: restart ntp service
+  service: name=network/ntp:default state=restarted sleep=5

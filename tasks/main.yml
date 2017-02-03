@@ -65,3 +65,28 @@
     - refresh name-service switch
     - restart name-service switch
   tags: ns-switch
+
+# task for ntp configuration (only for global zones)
+- name: check if zone is global
+  command: /usr/bin/zonename
+  changed_when: False
+  register: zonename
+  tags: ntp
+
+- name: install ntp
+  pkg5: name=/service/network/ntp state=present
+  tags: ntp
+  when: zonename.stdout == "global"
+
+- name: copy ntp.conf template
+  template: src=templates/ntp.conf.j2 dest=/etc/inet/ntp.conf owner=root group=sys mode=444 backup=yes
+  when: zonename.stdout == "global"
+  notify:
+    - refresh ntp service
+    - restart ntp service
+  tags: ntp
+
+- name: make sure ntp service is started
+  service: name=network/ntp state=started
+  when: zonename.stdout == "global"
+  tags: ntp
