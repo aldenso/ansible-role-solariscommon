@@ -1,2 +1,6 @@
 ---
 # defaults file for solariscommon
+solariscommon_banner: |
+  ##################################################################
+  Authorized users only. All activity may be monitored and reported.
+  ##################################################################

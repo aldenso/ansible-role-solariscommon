@@ -24,3 +24,9 @@
 
 - name: restart ntp service
   service: name=network/ntp:default state=restarted sleep=5
+
+- name: refresh sshd service
+  service: name=network/ssh:default state=reloaded sleep=5
+
+- name: restart sshd service
+  service: name=network/ssh:default state=restarted sleep=5

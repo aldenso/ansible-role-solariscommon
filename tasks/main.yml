@@ -90,3 +90,22 @@
   service: name=network/ntp state=started enabled=yes sleep=5
   when: zonename.stdout == "global"
   tags: ntp
+
+# task to set banner
+- name: copy banner to /etc/motd
+  template: src=templates/banner.j2 dest=/etc/motd owner=root group=sys mode=644 backup=yes
+  tags: banner
+
+- name: copy banner to /etc/issue
+  template: src=templates/banner.j2 dest=/etc/issue owner=root group=sys mode=644 backup=yes
+  tags: banner
+
+- name: insert/update "Banner" configuration in /etc/ssh/sshd_config
+  blockinfile:
+    dest: /etc/ssh/sshd_config
+    block: |
+      Banner /etc/issue
+  notify:
+    - refresh sshd service
+    - restart sshd service
+  tags: banner
