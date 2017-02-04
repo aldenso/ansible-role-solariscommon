@@ -87,6 +87,6 @@
   tags: ntp
 
 - name: make sure ntp service is started
-  service: name=network/ntp state=started
+  service: name=network/ntp state=started enabled=yes sleep=5
   when: zonename.stdout == "global"
   tags: ntp

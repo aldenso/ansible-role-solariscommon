@@ -37,7 +37,6 @@ Example Playbook
       roles:
          - { role: aldenso.solariscommon, solariscommon_be: true, timezone: "America/New_York",  ns_switch: '"files dns mdns"', when: "ansible_os_family == 'Solaris'", become: true }
 
-
 License
 -------
 
