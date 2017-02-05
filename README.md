@@ -29,6 +29,32 @@ Available variables are listed below.
 
 To check timezones availables in Solaris --> /usr/share/lib/zoneinfo/
 
+Defaults are listed below.
+
+    solariscommon_maxauthtries: 6
+    solariscommon_ignorerhosts: 'yes'
+    solariscommon_permitrootlogin: 'no'
+    solariscommon_permitemptypasswords: 'no'
+    solariscommon_sleeptime: 4
+    solariscommon_retries: 3
+    solariscommon_lockafterretries: 'YES'
+    solariscommon_maxweeks: 13
+    solariscommon_minweeks: 1
+    solariscommon_warnweeks: 4
+    solariscommon_passlength: 14
+    solariscommon_namecheck: 'YES'
+    solariscommon_history: 10
+    solariscommon_mindiff: 3
+    solariscommon_minupper: 1
+    solariscommon_minlower: 1
+    solariscommon_minspecial: 1
+    solariscommon_mindigit: 1
+    solariscommon_maxrepeats: 0
+    solariscommon_whitespace: 'YES'
+    solariscommon_dictiondbdir: '/var/passwd'
+    solariscommon_dictionlist: '/usr/share/lib/dict/words'
+    solariscommon_umask: '027'
+
 Dependencies
 ------------
 
